@@ -2,30 +2,59 @@ package com.taxi.app.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Represents a ride booking from request through completion.
+ * Tracks the full lifecycle: PENDING -> CONFIRMED -> IN_PROGRESS -> COMPLETED / CANCELLED.
+ */
 @Entity
 @Table(name = "bookings")
 public class Booking {
 
+    /** Unique booking identifier (UUID string). */
     @Id
     private String id;
 
+    /** References the Passenger who created this booking. */
     private String passengerId;
+    /** References the Driver assigned to this booking (null until accepted). */
     private String driverId;
     private String pickupLocation;
     private String dropLocation;
+    /** Requested vehicle category. */
     private String vehicleType;
+    /** Type: INSTANT or SCHEDULED. */
     private String bookingType;
+    /** For SCHEDULED bookings, the requested pickup time. */
     private String scheduledTime;
+    /** Lifecycle status: PENDING, CONFIRMED, IN_PROGRESS, COMPLETED, CANCELLED. */
     private String status;
 
+    /** Calculated fare amount for the ride. */
     private double fare;
 
+    /** Payment method: CASH, CARD, etc. */
     private String paymentMethod;
 
+    /** Whether this booking is part of a cooperation/shared ride. */
     private boolean cooperation;
 
+    /** Required by JPA. */
     public Booking() {}
 
+    /**
+     * Constructs a Booking with full details.
+     * @param passengerId   who requested the ride
+     * @param driverId      who will drive (may be null)
+     * @param pickupLocation origin address
+     * @param dropLocation   destination address
+     * @param vehicleType    requested vehicle category
+     * @param bookingType    INSTANT or SCHEDULED
+     * @param scheduledTime  pickup time for scheduled rides
+     * @param status         current lifecycle status
+     * @param fare           ride fare
+     * @param paymentMethod  how the fare will be paid
+     * @param cooperation    shared ride flag
+     */
     public Booking(String id, String passengerId, String driverId, String pickupLocation,
                    String dropLocation, String vehicleType, String bookingType,
                    String scheduledTime, String status, double fare,

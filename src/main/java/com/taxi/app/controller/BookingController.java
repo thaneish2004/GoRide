@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for passenger booking operations:
+ * creating bookings, viewing history, cancellation, and driver availability.
+ */
 @Controller
 public class BookingController {
 
@@ -33,12 +37,14 @@ public class BookingController {
         this.vehicleService = vehicleService;
     }
 
+    /** Show the booking form. */
     @GetMapping("/book")
     public String bookingForm(Model model) {
         model.addAttribute("bookingRequest", new BookingRequest());
         return "booking";
     }
 
+    /** Create a new booking from form data. */
     @PostMapping("/book")
     public String createBooking(@ModelAttribute BookingRequest req, HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -59,6 +65,7 @@ public class BookingController {
         return "booking";
     }
 
+    /** View the current passenger's booking history. */
     @GetMapping("/my-bookings")
     public String myBookings(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -79,6 +86,7 @@ public class BookingController {
         return "my-bookings";
     }
 
+    /** Cancel a pending or confirmed booking. */
     @PostMapping("/cancel")
     public String cancelBooking(@RequestParam String id, HttpSession session) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -89,12 +97,14 @@ public class BookingController {
         return "redirect:/my-bookings";
     }
 
+    /** AJAX endpoint returning currently available drivers. */
     @GetMapping("/check-availability")
     @ResponseBody
     public List<Driver> checkAvailability() {
         return driverService.getAvailable();
     }
 
+    /** Redirect to company setup page. */
     @GetMapping("/select-company")
     public String selectCompany() {
         return "redirect:/company/setup";

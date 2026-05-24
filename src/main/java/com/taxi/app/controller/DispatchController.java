@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for driver dispatch tasks and admin booking management.
+ * Drivers can view pending tasks, accept with fare, update status.
+ */
 @Controller
 public class DispatchController {
 
@@ -27,6 +31,7 @@ public class DispatchController {
         this.userService = userService;
     }
 
+    /** Show available and assigned dispatch tasks for the current driver. */
     @GetMapping("/tasks")
     public String tasks(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -49,6 +54,11 @@ public class DispatchController {
         return "dispatch-tasks";
     }
 
+    /**
+     * Update the status of a dispatch task.
+     * Accepting a task sets driver, fare, and marks as CONFIRMED.
+     * Completing a task frees the driver back to AVAILABLE.
+     */
     @PostMapping("/tasks/update")
     public String updateTask(@RequestParam String bookingId, @RequestParam String status,
                              @RequestParam(required = false) Double fare,
@@ -77,6 +87,7 @@ public class DispatchController {
         return "redirect:/tasks";
     }
 
+    /** Admin: view all bookings in the system. */
     @GetMapping("/admin/bookings")
     public String adminBookings(HttpSession session, Model model) {
         if (!isAdmin(session)) return "redirect:/login";
@@ -85,6 +96,7 @@ public class DispatchController {
         return "admin-bookings";
     }
 
+    /** Admin: cancel/delete a booking. */
     @PostMapping("/admin/bookings/delete")
     public String adminDeleteBooking(@RequestParam String id, HttpSession session) {
         if (!isAdmin(session)) return "redirect:/login";
@@ -92,11 +104,13 @@ public class DispatchController {
         return "redirect:/admin/bookings";
     }
 
+    /** Check if the logged-in user has ADMIN role. */
     private boolean isAdmin(HttpSession session) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
         return user != null && "ADMIN".equals(user.getRole());
     }
 
+    /** Convert Booking entities to display-friendly BookingView objects. */
     private List<BookingView> toViews(List<Booking> bookings) {
         return bookings.stream().map(b -> {
             String pName = userService.findById(b.getPassengerId()).map(p -> p.getName()).orElse("N/A");

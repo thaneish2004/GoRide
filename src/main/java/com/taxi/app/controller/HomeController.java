@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
+/**
+ * Home controller: landing page, contact page, and role-based dashboard routing.
+ */
 @Controller
 public class HomeController {
 
@@ -22,16 +25,24 @@ public class HomeController {
         this.vehicleService = vehicleService;
     }
 
+    /** Landing page with taxi SVG hero and feature sections. */
     @GetMapping("/")
     public String index() {
         return "index";
     }
 
+    /** Contact/support page. */
     @GetMapping("/contact")
     public String contact() {
         return "contact";
     }
 
+    /**
+     * Role-based home dashboard.
+     * Driver: shows task/vehicle stats.
+     * Admin/Company: redirects to their dedicated pages.
+     * Passenger: shows booking/account quick-links.
+     */
     @GetMapping("/home")
     public String home(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");

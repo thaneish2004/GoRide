@@ -2,10 +2,16 @@ package com.taxi.app.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Represents a system administrator with full access to
+ * manage users, drivers, bookings, and vehicles.
+ * Standalone entity (not extending Person) with its own table.
+ */
 @Entity
 @Table(name = "admins")
 public class Admin {
 
+    /** Unique identifier (UUID string). */
     @Id
     private String id;
 
@@ -13,8 +19,16 @@ public class Admin {
     private String email;
     private String password;
 
+    /** Required by JPA. */
     public Admin() {}
 
+    /**
+     * Constructs an Admin with the given credentials.
+     * @param id       unique identifier
+     * @param name     display name
+     * @param email    login email
+     * @param password login password
+     */
     public Admin(String id, String name, String email, String password) {
         this.id = id;
         this.name = name;

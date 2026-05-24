@@ -1,5 +1,9 @@
 package com.taxi.app.dto;
 
+/**
+ * View projection of a booking for display in tables.
+ * Resolves foreign IDs to human-readable names (passengerName, driverName).
+ */
 public class BookingView {
     private String bookingId;
     private String passengerName;
@@ -12,6 +16,7 @@ public class BookingView {
     private String vehicleType;
     private String paymentMethod;
 
+    /** Required by Jackson. */
     public BookingView() {}
 
     public BookingView(String bookingId, String passengerName, String driverName,

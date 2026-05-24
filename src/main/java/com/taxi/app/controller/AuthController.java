@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * Controller for authentication: login, registration, and logout.
+ * Routes users to role-specific home pages on successful login.
+ */
 @Controller
 public class AuthController {
 
@@ -32,12 +36,17 @@ public class AuthController {
         this.adminService = adminService;
     }
 
+    /** Show the login form. */
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("loginRequest", new LoginRequest());
         return "login";
     }
 
+    /**
+     * Process login. Authenticates against the correct service based on userType.
+     * Admin -> /admin/dashboard, others -> /home for role dispatch.
+     */
     @PostMapping("/login")
     public String login(@ModelAttribute LoginRequest req, HttpSession session, Model model) {
         String type = req.getUserType();
@@ -89,12 +98,14 @@ public class AuthController {
         return "login";
     }
 
+    /** Show the registration form. */
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("registerRequest", new RegisterRequest());
         return "register";
     }
 
+    /** Register a new passenger or driver account. */
     @PostMapping("/register")
     public String register(@ModelAttribute RegisterRequest req, Model model) {
         if (userService.emailExists(req.getEmail())) {
@@ -123,6 +134,7 @@ public class AuthController {
         return "redirect:/login";
     }
 
+    /** Logout: invalidate session and return to landing page. */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();

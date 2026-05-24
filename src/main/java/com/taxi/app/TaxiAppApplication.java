@@ -6,6 +6,10 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 
+/**
+ * GoRide - Taxi Ride-Hailing Application.
+ * Spring Boot entry point. On startup, logs the running URL.
+ */
 @SpringBootApplication
 public class TaxiAppApplication {
 
@@ -19,6 +23,7 @@ public class TaxiAppApplication {
 		SpringApplication.run(TaxiAppApplication.class, args);
 	}
 
+	/** Print the application URL once the server is ready. */
 	@EventListener(ApplicationReadyEvent.class)
 	public void onReady() {
 		String port = env.getProperty("server.port", "8090");

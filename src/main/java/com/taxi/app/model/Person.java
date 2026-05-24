@@ -2,9 +2,15 @@ package com.taxi.app.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Abstract base class for all person types in the system.
+ * Uses JPA mapped superclass inheritance strategy. Each subclass
+ * (Passenger, Driver, Company) maps to its own table.
+ */
 @MappedSuperclass
 public abstract class Person {
 
+    /** Unique identifier (UUID string). */
     @Id
     private String id;
 
@@ -13,8 +19,17 @@ public abstract class Person {
     private String phone;
     private String password;
 
+    /** Required by JPA. */
     protected Person() {}
 
+    /**
+     * Constructs a Person with the given attributes.
+     * @param id    unique identifier
+     * @param name  full name
+     * @param email email address (used as login)
+     * @param phone contact number
+     * @param password login password
+     */
     protected Person(String id, String name, String email, String phone, String password) {
         this.id = id;
         this.name = name;
@@ -23,6 +38,7 @@ public abstract class Person {
         this.password = password;
     }
 
+    /** Returns the role identifier for this person type. */
     public abstract String getRole();
 
     public String getId() { return id; }

@@ -1,10 +1,19 @@
+/**
+ * GoRide common app utilities.
+ * - Auto-dismiss alerts after 4s
+ * - Confirmation dialogs for destructive actions
+ * - Sidebar toggle + active-link highlighting
+ * - Client-side required-field validation
+ */
 document.addEventListener('DOMContentLoaded', function () {
 
+    // Auto-dismiss flash messages
     document.querySelectorAll('.alert').forEach(function (el) {
         setTimeout(function () { el.style.transition = 'opacity .5s'; el.style.opacity = '0'; }, 4000);
         setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 4500);
     });
 
+    // Confirmation dialog for delete/destructive buttons
     document.querySelectorAll('[data-confirm]').forEach(function (el) {
         el.addEventListener('click', function (e) {
             if (!confirm(el.getAttribute('data-confirm') || 'Are you sure?')) {
@@ -13,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Sidebar collapse toggle
     var toggle = document.getElementById('sidebarToggle');
     var sidebar = document.querySelector('.admin-sidebar');
     if (toggle && sidebar) {
@@ -21,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Highlight active sidebar link based on current URL
     var currentPath = window.location.pathname;
     document.querySelectorAll('.admin-sidebar a').forEach(function (a) {
         var href = a.getAttribute('href');
@@ -29,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Client-side required field validation
     document.querySelectorAll('form').forEach(function (form) {
         form.addEventListener('submit', function () {
             var required = form.querySelectorAll('[required]');

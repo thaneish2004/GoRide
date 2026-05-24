@@ -1,15 +1,23 @@
 package com.taxi.app.dto;
 
+/**
+ * View projection of a user stored in HTTP session.
+ * Excludes sensitive fields like password.
+ */
 public class UserView {
     private String id;
     private String name;
     private String email;
     private String phone;
+    /** Role discriminator: PASSENGER, DRIVER, ADMIN, or COMPANY. */
     private String role;
+    /** Passenger-specific category (REGULAR/VIP), null for other roles. */
     private String passengerType;
+    /** Masked or stored card number for payment. */
     private String cardNumber;
     private String cardExpiry;
 
+    /** Required by Jackson. */
     public UserView() {}
 
     public UserView(String id, String name, String email, String phone, String role,

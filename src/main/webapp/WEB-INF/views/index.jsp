@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html><head>
+<!-- Landing page: taxi hero SVG, features, stats counters, CTA -->
 <title>GoRide — Ride With Confidence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -1,7 +1,15 @@
+/**
+ * GoRide landing page animations.
+ * - Navbar style on scroll (transparent -> solid)
+ * - Parallax background movement on scroll
+ * - Animated number counters that trigger on viewport entry
+ * - Smooth-scroll for anchor links
+ */
 document.addEventListener('DOMContentLoaded', function () {
 
   lucide.createIcons();
 
+  // ── Navbar scroll effect ──
   var navbar = document.querySelector('.lp-nav');
   var hero = document.querySelector('.lp-hero');
 
@@ -20,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateNav();
   window.addEventListener('scroll', updateNav, { passive: true });
 
+  // ── Parallax backgrounds ──
   var parallaxElements = document.querySelectorAll('.parallax');
   function updateParallax() {
     parallaxElements.forEach(function (el) {
@@ -36,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('scroll', updateParallax, { passive: true });
   updateParallax();
 
+  // ── Animated stat counters ──
   var counters = document.querySelectorAll('.lp-stat-number');
   var counted = false;
 
@@ -65,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
   animateCounters();
   window.addEventListener('scroll', animateCounters, { passive: true });
 
+  // ── Smooth scroll for anchor links ──
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();

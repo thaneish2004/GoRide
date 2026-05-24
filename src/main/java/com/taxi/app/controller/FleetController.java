@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller for fleet management: company setup, vehicle CRUD (driver and admin).
+ */
 @Controller
 public class FleetController {
 
@@ -32,6 +35,7 @@ public class FleetController {
         this.userService = userService;
     }
 
+    /** Show company setup/registration form. */
     @GetMapping("/company/setup")
     public String companySetupForm(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -40,6 +44,7 @@ public class FleetController {
         return "company-setup";
     }
 
+    /** Save or update company details. */
     @PostMapping("/company/setup")
     public String companySetup(@ModelAttribute Company company, HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -52,6 +57,7 @@ public class FleetController {
         return "company-setup";
     }
 
+    /** View owned vehicles (fleet page). */
     @GetMapping("/fleet")
     public String fleet(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -61,12 +67,14 @@ public class FleetController {
         return "fleet";
     }
 
+    /** Show add-vehicle form. */
     @GetMapping("/vehicle/add")
     public String addVehicleForm(Model model) {
         model.addAttribute("vehicle", new Vehicle());
         return "vehicle-add";
     }
 
+    /** Add a new vehicle to the driver's fleet. */
     @PostMapping("/vehicle/add")
     public String addVehicle(@RequestParam String make, @RequestParam("model") String carModel,
                              @RequestParam Integer year, @RequestParam String plateNumber,
@@ -92,6 +100,7 @@ public class FleetController {
         return "redirect:/fleet";
     }
 
+    /** Update vehicle operational status. */
     @PostMapping("/vehicle/update")
     public String updateVehicle(@RequestParam String id, @RequestParam String status,
                                 HttpSession session) {
@@ -104,6 +113,7 @@ public class FleetController {
         return "redirect:/fleet";
     }
 
+    /** Delete a vehicle (owner or admin only). */
     @PostMapping("/vehicle/delete")
     public String deleteVehicle(@RequestParam String id, @RequestParam(defaultValue = "/fleet") String redirect,
                                 HttpSession session) {
@@ -119,6 +129,7 @@ public class FleetController {
 
     /* ── Admin fleet management ── */
 
+    /** Admin: view all vehicles with owner names resolved. */
     @GetMapping("/admin/vehicles")
     public String adminVehicles(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -135,6 +146,7 @@ public class FleetController {
         return "admin-vehicles";
     }
 
+    /** Admin: add a vehicle and assign it to a driver or company. */
     @PostMapping("/admin/vehicles/add")
     public String adminAddVehicle(@RequestParam String make, @RequestParam("model") String carModel,
                                    @RequestParam Integer year, @RequestParam String plateNumber,
@@ -160,6 +172,7 @@ public class FleetController {
         return "redirect:/admin/vehicles";
     }
 
+    /** Resolve an owner ID to a human-readable name. */
     private String resolveOwnerName(String id, String type) {
         if ("DRIVER".equals(type)) {
             return driverService.findById(id).map(d -> d.getName()).orElse(id);
@@ -170,6 +183,7 @@ public class FleetController {
         return userService.findById(id).map(u -> u.getName()).orElse(id);
     }
 
+    /** Admin: toggle vehicle active/inactive status. */
     @PostMapping("/admin/vehicles/toggle")
     public String toggleVehicle(@RequestParam String id, HttpSession session) {
         UserView user = (UserView) session.getAttribute("loggedInUser");

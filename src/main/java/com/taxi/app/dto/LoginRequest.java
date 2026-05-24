@@ -1,10 +1,16 @@
 package com.taxi.app.dto;
 
+/**
+ * Request payload for user login.
+ * Supports all user types: PASSENGER, DRIVER, ADMIN, and COMPANY.
+ */
 public class LoginRequest {
     private String email;
     private String password;
+    /** The role type used to select the correct authentication service. */
     private String userType;
 
+    /** Required by Jackson. */
     public LoginRequest() {}
 
     public LoginRequest(String email, String password, String userType) {

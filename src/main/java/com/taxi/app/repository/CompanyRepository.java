@@ -6,7 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Repository for Company entity operations.
+ * Provides authentication lookup by email/password.
+ */
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, String> {
+    /** Lookup company by login credentials. */
     Optional<Company> findByEmailAndPassword(String email, String password);
 }

@@ -1,12 +1,18 @@
 package com.taxi.app.dto;
 
+/**
+ * Request payload for new user registration.
+ * Supports PASSENGER and DRIVER account creation.
+ */
 public class RegisterRequest {
     private String name;
     private String email;
     private String phone;
     private String password;
+    /** Desired account type: PASSENGER or DRIVER. */
     private String userType;
 
+    /** Required by Jackson. */
     public RegisterRequest() {}
 
     public RegisterRequest(String name, String email, String phone, String password, String userType) {

@@ -10,6 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Admin dashboard controller.
+ * Displays aggregate system statistics from all repositories.
+ */
 @Controller
 public class AdminController {
 
@@ -26,6 +30,7 @@ public class AdminController {
         this.vehicleRepository = vehicleRepository;
     }
 
+    /** Admin dashboard with counts for passengers, drivers, bookings, and vehicles. */
     @GetMapping("/admin/dashboard")
     public String dashboard(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");

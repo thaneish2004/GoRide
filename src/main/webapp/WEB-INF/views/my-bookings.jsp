@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <% String flash = (String) session.getAttribute("flash"); session.removeAttribute("flash"); request.setAttribute("flash", flash); %>
-<html><head><title>My Bookings</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/style.css"><script src="https://unpkg.com/lucide@latest"></script></head><body>
+<html><head>
+<!-- Booking history table: status, fare, cancel action --><title>My Bookings</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/style.css"><script src="https://unpkg.com/lucide@latest"></script></head><body>
 <jsp:include page="passenger-sidebar.jsp"><jsp:param name="title" value="My Bookings"/></jsp:include>
 <c:if test="${not empty flash}"><div class="alert alert-success">${flash}</div></c:if>
 <div class="card">

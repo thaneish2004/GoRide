@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for passenger profile and payment management.
+ * Also provides admin endpoints for user listing, search, and deletion.
+ */
 @Controller
 public class UserProfileController {
 
@@ -18,6 +22,7 @@ public class UserProfileController {
         this.userService = userService;
     }
 
+    /** View profile page with current user details. */
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -28,6 +33,7 @@ public class UserProfileController {
         return "profile";
     }
 
+    /** Update profile details (name, phone, passenger type, card). */
     @PostMapping("/profile/edit")
     public String editProfile(@ModelAttribute UserView form, HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -45,6 +51,7 @@ public class UserProfileController {
         return "redirect:/profile";
     }
 
+    /** Show payment info page. */
     @GetMapping("/payment")
     public String payment(HttpSession session, Model model) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
@@ -55,6 +62,7 @@ public class UserProfileController {
         return "payment";
     }
 
+    /** Update saved payment card details. */
     @PostMapping("/payment")
     public String updatePayment(@RequestParam String cardNumber, @RequestParam String cardExpiry,
                                 HttpSession session, Model model) {
@@ -70,6 +78,7 @@ public class UserProfileController {
         return "redirect:/profile";
     }
 
+    /** Admin: list all passengers. */
     @GetMapping("/admin/users")
     public String listUsers(HttpSession session, Model model) {
         if (!isAdmin(session)) return "redirect:/login";
@@ -80,6 +89,7 @@ public class UserProfileController {
         return "admin-users";
     }
 
+    /** Admin: search passengers by name, email, or phone. */
     @GetMapping("/admin/users/search")
     public String searchUsers(@RequestParam String q, HttpSession session, Model model) {
         if (!isAdmin(session)) return "redirect:/login";
@@ -87,6 +97,7 @@ public class UserProfileController {
         return "admin-users";
     }
 
+    /** Admin: delete a passenger account. */
     @PostMapping("/admin/users/delete")
     public String deleteUser(@RequestParam String id, HttpSession session) {
         if (!isAdmin(session)) return "redirect:/login";
@@ -94,6 +105,7 @@ public class UserProfileController {
         return "redirect:/admin/users";
     }
 
+    /** Check if the logged-in user has ADMIN role. */
     private boolean isAdmin(HttpSession session) {
         UserView user = (UserView) session.getAttribute("loggedInUser");
         return user != null && "ADMIN".equals(user.getRole());
