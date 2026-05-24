@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GoRide" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.taxi.app.TaxiAppApplication" />
+    <module name="taxi_app" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
